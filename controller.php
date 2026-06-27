@@ -11,9 +11,8 @@ $wallet['solde']= (int)readline("veuillez saisir un solde");
 return $wallet ;
 }
 
-function aFaire(string $choix):void
+function aFaire(string $choix, array $wallets, array $transactions):void
 {
-global $wallets;
 switch ($choix) {
 case '1':
 if(creerWallet(saisirWallet()) === 10)
@@ -40,6 +39,14 @@ if(faireRetrait($telephone, $montant) === 10)
 echo "Retrait reussi\n";
             }
 else{echo "Retrait impossible\n";}
+break;
+case '4':
+$telephone = readline("Telephone (laisser vide pour tout afficher) : ");
+if($telephone === '')
+            {
+echo "erreur \n";
+            }
+else{listerTransactions($transactions, trouverIndexWalletParTelephone($telephone, $wallets));}
 break;
 default:
 echo "a faire\n";

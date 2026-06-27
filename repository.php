@@ -38,3 +38,10 @@ function mettreAJourSolde(int $index, int $nouveauSolde, array &$tableau):void
 {
 $tableau[$index]['solde'] = $nouveauSolde;
 }
+
+function afficherTransaction(array $transaction):void
+{
+echo "Montant : {$transaction['montant']}\n";
+echo "Frais : {$transaction['frais']}\n";
+echo "Client (index) : {$transaction['indexClient']}\n";
+}

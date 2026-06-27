@@ -71,3 +71,14 @@ return 10;
        }
 return 20;
 }
+
+function listerTransactions(array $transactions, int $indexFiltre):void
+{
+foreach ($transactions as $transaction) {
+if($indexFiltre === -1 || $transaction['indexClient'] === $indexFiltre)
+        {
+afficherTransaction($transaction);
+echo "---\n";
+        }
+    }
+}
