@@ -35,3 +35,39 @@ return 10;
        }
 return 20;
 }
+
+function calculerFrais(int $montant):int
+{
+if($montant <= 10000)
+        {
+return 200;
+        }
+if($montant <= 100000)
+        {
+return 500;
+        }
+$frais = intdiv($montant, 100);
+if($frais > 5000)
+        {
+return 5000;
+        }
+return $frais;
+}
+
+function faireRetrait(string $telephone, int $montant):int
+{
+global $wallets, $transactions;
+$index = trouverIndexWalletParTelephone($telephone, $wallets);
+$frais = calculerFrais($montant);
+if(verifExistence($telephone, $wallets) === 10 &&
+verifMontantPositif($montant) === 10 &&
+verifSoldeDisponible($wallets[$index]['solde'], $montant, $frais) === 10
+       )
+       {
+$nouveauSolde = $wallets[$index]['solde'] - $montant - $frais;
+mettreAJourSolde($index, $nouveauSolde, $wallets);
+ajoutDansUnTableau(['montant'=>-$montant,'indexClient'=>$index,'frais'=>$frais], $transactions);
+return 10;
+       }
+return 20;
+}

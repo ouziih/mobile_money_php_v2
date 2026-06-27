@@ -106,3 +106,12 @@ return 10;
         }
 return 20;
 }
+
+function verifSoldeDisponible(int $solde, int $montant, int $frais):int
+{
+if($solde - $frais >= $montant)
+        {
+return 10;
+        }
+return 20;
+}

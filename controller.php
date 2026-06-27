@@ -32,6 +32,15 @@ echo "Depot reussi\n";
             }
 else{echo "Depot impossible\n";}
 break;
+case '3':
+$telephone = readline("Telephone du wallet : ");
+$montant = (int) readline("Montant a retirer : ");
+if(faireRetrait($telephone, $montant) === 10)
+            {
+echo "Retrait reussi\n";
+            }
+else{echo "Retrait impossible\n";}
+break;
 default:
 echo "a faire\n";
 break;
