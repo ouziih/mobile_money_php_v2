@@ -3,37 +3,20 @@ require_once 'repository.php';
 $tabChoix = ["0","1","2","3","4"];
 
 function verifPresent(string $choix,array $tab):bool{
-for ($index=0; $index < count($tab); $index++) { 
-if($choix===$tab[$index])
-        {
-return true;
-        }
+if(array_search($choix,$tab))
+    {
+        return true;
     }
 return false;
 } 
 
-function decideur(string $mot):string
-{
-if($mot === "tel")
-        {
-return 'telephone';
-        }
-if($mot === "code")
-        {
-return 'code';
-        }
-return '';
-}
 
 function verifUnicite(string $element,array $tableau, string $type):int
 {
-$suite = decideur($type);
-foreach ($tableau as $e => $value) {
-if($value[$suite] === $element)
-        {
-return 20;
-        }
-    }
+if(array_search($element, array_column($tableau, $type)) !== false) 
+{
+    return 20;
+}
 return 10;
 }
 
@@ -62,12 +45,10 @@ return 20;
 function verifPrefix(string $telephone):int
 {
 $prefixes = ['77','78','76','75','70'];
-foreach ($prefixes as $prefixe => $value) {
-if($value === $telephone[0].$telephone[1])
+if(array_search($telephone[0].$telephone[1],$prefixes)!==false)
             {
-return 10;
+return 10;   
             }
-    }
 return 20;
 }
 
