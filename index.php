@@ -1,5 +1,6 @@
 <?php
 require_once 'validator.php';
+require_once 'controller.php';
 $choix = " " ;
 
 function afficheMenu():void{
@@ -30,7 +31,7 @@ if(!verifPresent($choix,$tabChoix))
 }
 else
 {
-echo "travail a faire";
+    aFaire($choix);
 }
 }
 while($choix!=="0")
