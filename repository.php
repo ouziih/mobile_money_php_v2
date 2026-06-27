@@ -11,8 +11,7 @@ $transactions=[
 
 function ajoutDansUnTableau(array $element,array &$tableau):void
 {
-$nouvelIndex = count($tableau);
-$tableau[$nouvelIndex] = $element;
+array_push($tableau,$element);
 }
 
 function afficherWallet(array $wallet):void
@@ -25,13 +24,8 @@ echo "Solde : {$wallet['solde']}\n";
 
 function trouverIndexWalletParTelephone(string $telephone, array $tableau):int
 {
-foreach ($tableau as $index => $wallet) {
-if($wallet['telephone'] === $telephone)
-        {
-return $index;
-        }
-    }
-return -1;
+    $index = array_search($telephone, array_column($tableau, "telephone"));
+return ($index !== false) ? $index : -1;
 }
 
 function mettreAJourSolde(int $index, int $nouveauSolde, array &$tableau):void

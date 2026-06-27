@@ -8,7 +8,7 @@ global $wallets;
 if(verifChampNonVide($wallet['client']) === 10 &&
 verifFormat($wallet['telephone'], "tel") === 10 &&
 verifPrefix($wallet['telephone']) === 10 && 
-verifUnicite($wallet['telephone'],$wallets,"tel") === 10 &&
+verifUnicite($wallet['telephone'],$wallets,"telephone") === 10 &&
 verifFormat($wallet['code'], "code") === 10 &&
 verifUnicite($wallet['code'],$wallets,"code") === 10 &&
 verifSoldeInitial($wallet['solde']) === 10
@@ -75,10 +75,11 @@ return 20;
 function listerTransactions(array $transactions, int $indexFiltre):void
 {
 foreach ($transactions as $transaction) {
-if($indexFiltre === -1 || $transaction['indexClient'] === $indexFiltre)
+if($transaction['indexClient'] === $indexFiltre)
         {
 afficherTransaction($transaction);
 echo "---\n";
         }
     }
 }
+
