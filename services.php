@@ -1,6 +1,7 @@
 <?php
 require_once 'validator.php';
 require_once 'repository.php';
+
 function creerWallet(array $wallet):int
 {
 global $wallets;
@@ -18,4 +19,19 @@ return 10;
        }
 return 20;
 }
-?>
+
+function faireDepot(string $telephone, int $montant):int
+{
+global $wallets, $transactions;
+if(verifExistence($telephone, $wallets) === 10 &&
+verifMontantPositif($montant) === 10
+       )
+       {
+$index = trouverIndexWalletParTelephone($telephone, $wallets);
+$nouveauSolde = $wallets[$index]['solde'] + $montant;
+mettreAJourSolde($index, $nouveauSolde, $wallets);
+ajoutDansUnTableau(['montant'=>$montant,'indexClient'=>$index,'frais'=>0], $transactions);
+return 10;
+       }
+return 20;
+}
