@@ -1,36 +1,38 @@
 <?php
+namespace Services;
 require_once 'validator.php';
 require_once 'repository.php';
-
+use Repository as Res;
+use Validator as Val;
 function creerWallet(array $wallet):int
 {
-global $wallets;
-if(verifChampNonVide($wallet['client']) === 10 &&
-verifFormat($wallet['telephone'], "tel") === 10 &&
-verifPrefix($wallet['telephone']) === 10 && 
-verifUnicite($wallet['telephone'],$wallets,"tel") === 10 &&
-verifFormat($wallet['code'], "code") === 10 &&
-verifUnicite($wallet['code'],$wallets,"code") === 10 &&
-verifSoldeInitial($wallet['solde']) === 10
-       )
-       {
-ajoutDansUnTableau($wallet,$wallets);
-return 10;
-       }
+    global $wallets;
+    if(Val\verifChampNonVide($wallet['client']) === 10 &&
+        Val\verifFormat($wallet['telephone'], "tel") === 10 &&
+        Val\verifPrefix($wallet['telephone']) === 10 && 
+        Val\verifUnicite($wallet['telephone'],$wallets,"telephone") === 10 &&
+        Val\verifFormat($wallet['code'], "code") === 10 &&
+        Val\verifUnicite($wallet['code'],$wallets,"code") === 10 &&
+        Val\verifSoldeInitial($wallet['solde']) === 10
+    )
+    {
+        Res\ajoutDansUnTableau($wallet,$wallets);
+        return 10;
+    }
 return 20;
 }
 
 function faireDepot(string $telephone, int $montant):int
 {
 global $wallets, $transactions;
-if(verifExistence($telephone, $wallets) === 10 &&
-verifMontantPositif($montant) === 10
+if(Val\verifExistence($telephone, $wallets) === 10 &&
+Val\verifMontantPositif($montant) === 10
        )
        {
-$index = trouverIndexWalletParTelephone($telephone, $wallets);
+$index = Res\trouverIndexWalletParTelephone($telephone, $wallets);
 $nouveauSolde = $wallets[$index]['solde'] + $montant;
-mettreAJourSolde($index, $nouveauSolde, $wallets);
-ajoutDansUnTableau(['montant'=>$montant,'indexClient'=>$index,'frais'=>0], $transactions);
+Res\mettreAJourSolde($index, $nouveauSolde, $wallets);
+Res\ajoutDansUnTableau(['montant'=>$montant,'indexClient'=>$index,'frais'=>0], $transactions);
 return 10;
        }
 return 20;
@@ -57,16 +59,16 @@ return $frais;
 function faireRetrait(string $telephone, int $montant):int
 {
 global $wallets, $transactions;
-$index = trouverIndexWalletParTelephone($telephone, $wallets);
+$index = Res\trouverIndexWalletParTelephone($telephone, $wallets);
 $frais = calculerFrais($montant);
-if(verifExistence($telephone, $wallets) === 10 &&
-verifMontantPositif($montant) === 10 &&
-verifSoldeDisponible($wallets[$index]['solde'], $montant, $frais) === 10
+if(Val\verifExistence($telephone, $wallets) === 10 &&
+    Val\verifMontantPositif($montant) === 10 &&
+    Val\verifSoldeDisponible($wallets[$index]['solde'], $montant, $frais) === 10
        )
        {
 $nouveauSolde = $wallets[$index]['solde'] - $montant - $frais;
-mettreAJourSolde($index, $nouveauSolde, $wallets);
-ajoutDansUnTableau(['montant'=>-$montant,'indexClient'=>$index,'frais'=>$frais], $transactions);
+Res\mettreAJourSolde($index, $nouveauSolde, $wallets);
+Res\ajoutDansUnTableau(['montant'=>-$montant,'indexClient'=>$index,'frais'=>$frais], $transactions);
 return 10;
        }
 return 20;
@@ -75,10 +77,11 @@ return 20;
 function listerTransactions(array $transactions, int $indexFiltre):void
 {
 foreach ($transactions as $transaction) {
-if($indexFiltre === -1 || $transaction['indexClient'] === $indexFiltre)
+if($transaction['indexClient'] === $indexFiltre)
         {
-afficherTransaction($transaction);
+Res\afficherTransaction($transaction);
 echo "---\n";
         }
     }
 }
+

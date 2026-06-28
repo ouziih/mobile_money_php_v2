@@ -1,4 +1,5 @@
 <?php
+namespace Repository ;
 $wallets=[
 0=>['client'=>'Baila Wane','telephone'=>'771001010','code'=>"1234",'solde'=>0],
 1=>['client'=>'Hawa Baila Wane','telephone'=>'782345678','code'=>"1235",'solde'=>10000]
@@ -11,8 +12,7 @@ $transactions=[
 
 function ajoutDansUnTableau(array $element,array &$tableau):void
 {
-$nouvelIndex = count($tableau);
-$tableau[$nouvelIndex] = $element;
+array_push($tableau,$element);
 }
 
 function afficherWallet(array $wallet):void
@@ -25,13 +25,8 @@ echo "Solde : {$wallet['solde']}\n";
 
 function trouverIndexWalletParTelephone(string $telephone, array $tableau):int
 {
-foreach ($tableau as $index => $wallet) {
-if($wallet['telephone'] === $telephone)
-        {
-return $index;
-        }
-    }
-return -1;
+    $index = array_search($telephone, array_column($tableau, "telephone"));
+return ($index !== false) ? $index : -1;
 }
 
 function mettreAJourSolde(int $index, int $nouveauSolde, array &$tableau):void
