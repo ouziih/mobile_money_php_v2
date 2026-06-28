@@ -1,5 +1,8 @@
 <?php
+namespace Validator ;
 require_once 'repository.php';
+use Repository as Res;
+
 $tabChoix = ["0","1","2","3","4"];
 
 function verifPresent(string $choix,array $tab):bool{
@@ -72,7 +75,7 @@ return 20;
 
 function verifExistence(string $telephone, array $tableau):int
 {
-if(trouverIndexWalletParTelephone($telephone, $tableau) !== -1)
+if(Res\trouverIndexWalletParTelephone($telephone, $tableau) !== -1)
         {
 return 10;
         }

@@ -1,6 +1,8 @@
 <?php
 require_once 'validator.php';
 require_once 'controller.php';
+use Validator as Val;
+use Controller as Con;
 $choix = " " ;
 function afficheMenu():void{
 echo "*** Menu Distributeur ***\n\n";
@@ -20,13 +22,13 @@ do
 {
 afficheMenu();
 $choix = saisieChoix();
-if(!verifPresent($choix,$tabChoix))
+if(!Val\verifPresent($choix,$tabChoix))
 {
 reposeChoix();
 }
 else
 {
-aFaire($choix, $wallets, $transactions);
+Con\aFaire($choix, $wallets, $transactions);
 }
 }
 while($choix!=="0")

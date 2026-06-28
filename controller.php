@@ -1,6 +1,9 @@
 <?php
-require_once 'validator.php';
+namespace Controller;
 require_once 'services.php';
+require_once 'repository.php';
+use Repository as Res;
+use Services as Ser;
 
 function saisirWallet():array{
 $wallet=['client'=>'','telephone'=>'','code'=>0,'solde'=>0];
@@ -15,17 +18,17 @@ function aFaire(string $choix, array $wallets, array $transactions):void
 {
 switch ($choix) {
 case '1':
-if(creerWallet(saisirWallet()) === 10)
+if(Ser\creerWallet(saisirWallet()) === 10)
             {
 echo "Creation reussie\n";
-afficherWallet($wallets[count($wallets)-1]);
+Res\afficherWallet($wallets[count($wallets)-1]);
             }
 else{echo "Donnee invalide\n";}
 break;
 case '2':
 $telephone = readline("Telephone du wallet : ");
 $montant = (int) readline("Montant a deposer : ");
-if(faireDepot($telephone, $montant) === 10)
+if(Ser\faireDepot($telephone, $montant) === 10)
             {
 echo "Depot reussi\n";
             }
@@ -34,7 +37,7 @@ break;
 case '3':
 $telephone = readline("Telephone du wallet : ");
 $montant = (int) readline("Montant a retirer : ");
-if(faireRetrait($telephone, $montant) === 10)
+if(Ser\faireRetrait($telephone, $montant) === 10)
             {
 echo "Retrait reussi\n";
             }
@@ -46,7 +49,7 @@ if($telephone === '')
             {
 echo "erreur \n";
             }
-else{listerTransactions($transactions, trouverIndexWalletParTelephone($telephone, $wallets));}
+else{Ser\listerTransactions($transactions, Res\trouverIndexWalletParTelephone($telephone, $wallets));}
 break;
 default:
 echo "a faire\n";
